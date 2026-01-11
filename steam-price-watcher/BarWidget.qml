@@ -71,13 +71,13 @@ Rectangle {
     notifiedGames = cfg.notifiedGames || defaults.notifiedGames || [];
     currency = cfg.currency || defaults.currency || "br";
     currencySymbol = cfg.currencySymbol || defaults.currencySymbol || "R$";
-    console.log("Steam Price Watcher: Configuration updated");
-    console.log("New watchlist length:", watchlist.length);
+    Logger.d("Steam", "Steam Price Watcher: Configuration updated");
+    Logger.d("Steam", "New watchlist length:", watchlist.length);
   }
 
   Component.onCompleted: {
-    console.log("Steam Price Watcher Widget loaded");
-    console.log("Watchlist:", JSON.stringify(watchlist));
+    Logger.d("Steam", "Steam Price Watcher Widget loaded");
+    Logger.d("Steam", "Watchlist:", JSON.stringify(watchlist));
   }
 
   function checkPrices() {
@@ -149,12 +149,12 @@ Rectangle {
   }
 
   function addGameOnTarget(game) {
-    console.log("Steam Price Watcher: Game on target detected:", game.name, game.appId);
+    Logger.d("Steam", "Steam Price Watcher: Game on target detected:", game.name, game.appId);
     
     // Check if already in list
     for (var i = 0; i < gamesOnTarget.length; i++) {
       if (gamesOnTarget[i].appId === game.appId) {
-        console.log("Steam Price Watcher: Game already in target list");
+        Logger.d("Steam", "Steam Price Watcher: Game already in target list");
         return;
       }
     }
@@ -165,14 +165,14 @@ Rectangle {
     
     // Send notification if not already notified
     var wasNotified = isGameNotified(game.appId);
-    console.log("Steam Price Watcher: Was game already notified?", wasNotified);
+    Logger.d("Steam", "Steam Price Watcher: Was game already notified?", wasNotified);
     
     if (!wasNotified) {
-      console.log("Steam Price Watcher: Calling sendNotification");
+      Logger.d("Steam", "Steam Price Watcher: Calling sendNotification");
       sendNotification(game);
       markGameAsNotified(game.appId);
     } else {
-      console.log("Steam Price Watcher: Skipping notification - already notified");
+      Logger.d("Steam", "Steam Price Watcher: Skipping notification - already notified");
     }
   }
 
@@ -190,7 +190,7 @@ Rectangle {
   }
 
   function sendNotification(game) {
-    console.log("Steam Price Watcher: Sending notification for", game.name);
+    Logger.d("Steam", "Steam Price Watcher: Sending notification for", game.name);
     
     var symbol = root.currencySymbol;
     
@@ -208,12 +208,12 @@ Rectangle {
       var homeDir = homeProcess.stdout.text.trim();
       var iconPath = homeDir + "/.config/noctalia/plugins/steam-price-watcher/logo-notification.png";
       
-      console.log("Steam Price Watcher: Icon path:", iconPath);
+      Logger.d("Steam", "Steam Price Watcher: Icon path:", iconPath);
       
       var notifyCmd = '["notify-send", "-a", "Noctalia Shell", "-i", "' + iconPath + '", "🎮 Steam Price Watcher", "' + game.name + ' atingiu ' + symbol + ' ' + game.currentPrice.toFixed(2) + '!\\nPreço alvo: ' + symbol + ' ' + game.targetPrice.toFixed(2) + '"]';
       
       var notifyProcess = Qt.createQmlObject(
-        'import Quickshell.Io; Process { running: true; command: ' + notifyCmd + '; onExited: (exitCode) => { console.log("Steam Price Watcher: Notification sent, exit code:", exitCode); destroy(); } }',
+        'import Quickshell.Io; Process { running: true; command: ' + notifyCmd + '; onExited: (exitCode) => { Logger.d("Steam", "Steam Price Watcher: Notification sent, exit code:", exitCode); destroy(); } }',
         root,
         "notifyProcess"
       );

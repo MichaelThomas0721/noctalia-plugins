@@ -1,6 +1,6 @@
 # Hyprland Cheatsheet for Noctalia
 
-Dynamic keybind cheatsheet plugin for Noctalia/Quickshell that automatically generates and displays your Hyprland keyboard shortcuts.
+Dynamic keybind cheatsheet plugin for Noctalia that automatically generates and displays your Hyprland keyboard shortcuts.
 
 ## Features
 
@@ -19,9 +19,9 @@ Dynamic keybind cheatsheet plugin for Noctalia/Quickshell that automatically gen
 cp -r hyprland-cheatsheet ~/.config/noctalia/plugins/
 ```
 
-2. Restart Quickshell:
+2. Restart Noctalia:
 ```bash
-pkill -f "qs.*noctalia" && qs -c noctalia-shell &
+pkill -f "qs" && qs -c noctalia-shell &
 ```
 
 ## Usage
@@ -72,7 +72,7 @@ The cheatsheet displays in a centered overlay with:
 
 ## Requirements
 
-- Noctalia/Quickshell 3.6.0+
+- Noctalia 3.6.0+
 - Hyprland compositor
 - `bash` for file reading
 - Keybind config at `~/.config/hypr/keybind.conf`
@@ -84,14 +84,6 @@ The cheatsheet displays in a centered overlay with:
 - `BarWidget.qml` - Top bar widget (optional)
 - `manifest.json` - Plugin metadata
 - `i18n/*.json` - Translation files (13 languages)
-
-## Supported Languages
-
-English, German, Spanish, French, Italian, Japanese, Dutch, Polish, Portuguese, Russian, Turkish, Ukrainian, Chinese
-
-## Author
-
-Created with ❤️ using Claude Code
 
 ## License
 

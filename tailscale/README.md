@@ -2,6 +2,8 @@
 
 A Tailscale status plugin for Noctalia that shows your Tailscale connection status in the menu bar.
 
+![Preview of the tailscale status plugin](preview.png)
+
 ## Features
 
 - **Status Indicator**: Shows whether Tailscale is connected or disconnected with a visual indicator
@@ -25,6 +27,9 @@ A Tailscale status plugin for Noctalia that shows your Tailscale connection stat
 | `compactMode` | false | Show only the icon in the menu bar |
 | `showIpAddress` | true | Display your Tailscale IP address |
 | `showPeerCount` | true | Display the number of connected peers |
+| `hideDisconnected` | false | Hide the widget when Tailscale is disconnected |
+| `terminalCommand` | "" | Terminal command prefix for SSH (e.g., "ghostty -e") |
+| `pingCount` | 5 | Number of pings to send when pinging a peer |
 
 ## IPC Commands
 

@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
+import Quickshell.Io
 import qs.Commons
 import qs.Widgets
 import qs.Services.UI
@@ -160,7 +161,25 @@ Item {
   readonly property bool panelReady: pluginApi !== null && mainInstance !== null && mainInstance !== undefined
 
   // Check if Taildrop plugin is available
-  readonly property bool taildropAvailable: PluginService.getPluginAPI("taildrop") !== null
+  // We check if the IPC call succeeds (exit code 0) which means the plugin is loaded
+  property bool taildropAvailable: false
+  
+  Process {
+    id: taildropCheckProcess
+    command: ["noctalia-shell", "ipc", "call", "plugin:taildrop", "info"]
+    running: false
+    
+    onExited: function(exitCode) {
+      // If IPC call succeeds, taildrop is available
+      root.taildropAvailable = (exitCode === 0)
+    }
+  }
+  
+  onPanelReadyChanged: {
+    if (panelReady) {
+      taildropCheckProcess.running = true
+    }
+  }
 
   readonly property bool hideDisconnected:
     pluginApi?.pluginSettings?.hideDisconnected ??
@@ -493,7 +512,7 @@ Item {
         text: pluginApi?.tr("panel.send-files") || "Send Files"
         icon: "send"
         onClicked: {
-          Quickshell.execDetached(["qs", "-c", "noctalia-shell", "ipc", "call", "plugin:taildrop", "open"])
+          Quickshell.execDetached(["noctalia-shell", "ipc", "call", "plugin:taildrop", "open"])
         }
       }
 

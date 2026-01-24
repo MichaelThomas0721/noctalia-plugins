@@ -121,10 +121,29 @@ Item {
   IpcHandler {
     target: "plugin:taildrop"
 
+    function info() {
+      // Return availability status
+      return {
+        "available": root.tailscaleInstalled && root.tailscaleRunning,
+        "tailscaleInstalled": root.tailscaleInstalled,
+        "tailscaleRunning": root.tailscaleRunning
+      }
+    }
+
     function open() {
-      // Note: IPC doesn't have screen context, so this won't work perfectly
-      // Users should click the bar widget instead
-      console.warn("Taildrop: IPC open() called but no screen context available. Please click the bar widget instead.")
+      if (pluginApi) {
+        pluginApi.withCurrentScreen(screen => {
+          pluginApi.openPanel(screen);
+        });
+      }
+    }
+
+    function toggle() {
+      if (pluginApi) {
+        pluginApi.withCurrentScreen(screen => {
+          pluginApi.togglePanel(screen);
+        });
+      }
     }
   }
 }

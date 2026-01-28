@@ -127,7 +127,7 @@ Item {
 
     Logger.i("UpdateCount", `Executed update command: ${fullCmd}`);
 
-    startGetNumUpdates()
+    root.startGetNumUpdates()
   }
 
   Process {

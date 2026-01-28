@@ -126,12 +126,16 @@ Item {
     doSystemUpdate.running = true;
 
     Logger.i("UpdateCount", `Executed update command: ${fullCmd}`);
-
-    root.startGetNumUpdates()
   }
 
   Process {
     id: doSystemUpdate
+
+    onFinished: function(exitCode, exitStatus) {
+        if (exitCode === 0) {
+            root.startGetNumUpdates()
+        }
+    }
   }
 
   //

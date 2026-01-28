@@ -126,6 +126,8 @@ Item {
     doSystemUpdate.running = true;
 
     Logger.i("UpdateCount", `Executed update command: ${fullCmd}`);
+
+    startGetNumUpdates()
   }
 
   Process {
